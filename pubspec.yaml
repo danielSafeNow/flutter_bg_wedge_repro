@@ -1,0 +1,20 @@
+name: flutter_bg_wedge_repro
+description: "Minimal repro for the flutter_background_geolocation Android wedge through fast restart while TrackingService FGS is alive."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_background_geolocation: 5.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
