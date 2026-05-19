@@ -76,6 +76,26 @@ This repro uses:
 
 Same config shape that triggers the issue in production SafeNow apps.
 
+## Capturing the truncated log for the upstream issue
+
+The upstream issue body asks for a curated five-phase trace under "Relevant log output". To produce one from a real run on your device:
+
+```bash
+# Terminal A — start the capture (clears logcat ring, filters to relevant tags)
+scripts/capture-log.sh wedge.log
+
+# Terminal B — cold launch, then reproduce per "How to Reproduce" above
+flutter run
+
+# Once the red "WEDGE DETECTED" banner has been visible for a few seconds,
+# Ctrl-C the capture in Terminal A.
+
+# Format the raw capture into the five-phase Markdown block:
+scripts/format-log.py wedge.log > truncated.md
+```
+
+`truncated.md` is ready to paste into the upstream issue. The formatter segments on observable lifecycle markers (`activityCreateCount=2`, `InitBG enter`, `start.returned`) — if it warns that no recreate was found, the swipe-and-fast-reopen did not land in the same process and you'll need to re-capture with a tighter gap.
+
 ## Filing Upstream
 
 This repro was built to accompany the upstream issue report to [flutter_background_geolocation](https://github.com/transistorsoft/flutter_background_geolocation/issues). The maintainer can `flutter run` this directly to observe the wedge on any Android device.
